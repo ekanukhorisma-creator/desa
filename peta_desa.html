@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WebGIS Kecamatan Kembaran</title>
+
+<link rel="icon" type="image/png" href="assets/logo.png">
+<meta name="theme-color" content="#1e63d6">
+
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(245,245,245,0.95);
+  border-radius: 50px;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  z-index: 3000;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+}
+
+.navbar a,
+.navbar button {
+  font-size: 15px;
+  font-weight: 500;
+  color: #0b2c4d;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+  color: #ff9800;
+}
+
+/* ================= DROPDOWN DESA ================= */
+.dropdown-desa {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  max-height: 340px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  overflow-y: auto;
+  display: none;
+  z-index: 3000;
+}
+
+.dropdown-desa a {
+  display: block;
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #0b2c4d;
+  text-decoration: none;
+}
+
+.dropdown-desa a:hover {
+  background: #eef5ff;
+  color: #ff9800;
+}
+
+/* Scrollbar */
+.dropdown-desa::-webkit-scrollbar { width: 6px; }
+.dropdown-desa::-webkit-scrollbar-thumb {
+  background: #c2d9ff;
+  border-radius: 10px;
+}
+
+/* ================= MAP ================= */
+.map-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.map-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  position: absolute;
+  top: 120px;
+  right: 20px;
+  z-index: 3000;
+}
+
+.search-box input {
+  padding: 10px 14px;
+  width: 240px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 18px;
+    gap: 16px;
+  }
+
+  .dropdown-desa {
+    width: 92vw;
+    max-height: 260px;
+  }
+
+  .search-box {
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<div class="navbar">
+  <a href="index.html">Beranda</a>
+  <button id="desaBtn">Peta Desa ▾</button>
+  <a href="peta_kecamatan.html">Peta Kecamatan</a>
+  <a href="tentang.html">Tentang</a>
+</div>
+
+<!-- ================= DROPDOWN DESA ================= -->
+<div class="dropdown-desa" id="desaDrop">
+  <a href="#" data-name="Bantarwuni" data-map="qgis2web_Bantarwuni/index.html">Desa Bantarwuni</a>
+  <a href="#" data-name="Kembaran" data-map="qgis2web_Kembaran/index.html">Desa Kembaran</a>
+  <a href="#" data-name="Karangsoka" data-map="qgis2web_Karangsoka/index.html">Desa Karangsoka</a>
+  <a href="#" data-name="Tambaksari Kidul" data-map="qgis2web_Tambaksari_Kidul/index.html">Desa Tambaksari Kidul</a>
+  <a href="#" data-name="Karangsoka" data-map="qgis2web_Karangsoka/index.html">Desa Karangsoka</a>
+  <a href="#" data-name="Bojongsari" data-map="qgis2web_2026_01_03-22_58_17_655126/index.html">Desa Bojongsari</a>
+  <a href="#" data-name="Dukuhwaluh" data-map="qgis2web_Dukuwaluh/index.html">Desa Dukuhwaluh</a>
+  <a href="#" data-name="Karangsari" data-map="qgis2web_Karangsari/index.html">Desa Karangsari</a>
+  <a href="#" data-name="Karangtengah" data-map="qgis2web_Karangtengah/index.html">Desa Karangtengah</a>
+  <a href="#" data-name="Kramat" data-map="qgis2web_Kramat/index.html">Desa Kramat</a>
+  <a href="#" data-name="Ledug" data-map="qgis2web_Ledug/index.html">Desa Ledug</a>
+  <a href="#" data-name="Linggasari" data-map="qgis2web_Linggasari/index.html">Desa Linggasari</a>
+  <a href="#" data-name="Pliken" data-map="qgis2web_Pliken/index.html">Desa Pliken</a>
+  <a href="#" data-name="Purbadana" data-map="qgis2web_Purbadana/index.html">Desa Purbadana</a>
+  <a href="#" data-name="Purwodadi" data-map="qgis2web_Purwodadi/index.html">Desa Purwodadi</a>
+  <a href="#" data-name="Sambeng Kulon" data-map="qgis2web_SambengKulon/index.html">Desa Sambeng Kulon</a>
+  <a href="#" data-name="Sambeng Wetan" data-map="qgis2web_SambengWetan/index.html">Desa Sambeng Wetan</a>
+</div>
+
+<!-- ================= MAP ================= -->
+<div class="map-wrapper">
+  <iframe id="mapFrame" src="qgis2web_Bantarwuni/index.html"></iframe>
+
+  <div class="search-box">
+    <input type="text" placeholder="Cari alamat / koordinat">
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+const desaBtn  = document.getElementById("desaBtn");
+const desaDrop = document.getElementById("desaDrop");
+const mapFrame = document.getElementById("mapFrame");
+
+/* Toggle dropdown */
+desaBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  desaDrop.style.display =
+    desaDrop.style.display === "block" ? "none" : "block";
+});
+
+/* Klik desa → FIX TOTAL iframe reload */
+desaDrop.querySelectorAll("a").forEach(item => {
+  item.addEventListener("click", e => {
+    e.preventDefault();
+
+    const mapUrl  = item.dataset.map;
+    const desa    = item.dataset.name;
+
+    // BLANK dulu (anti bug Leaflet)
+    mapFrame.src = "about:blank";
+
+    // Reload paksa + anti cache
+    setTimeout(() => {
+      mapFrame.src = mapUrl + "?v=" + Date.now();
+    }, 60);
+
+    desaBtn.innerText = "Peta Desa " + desa + " ▾";
+    desaDrop.style.display = "none";
+  });
+});
+
+/* Klik di luar → tutup dropdown */
+document.addEventListener("click", () => {
+  desaDrop.style.display = "none";
+});
+</script>
+
+</body>
+</html>
